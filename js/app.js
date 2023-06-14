@@ -4,12 +4,12 @@
         function testWebP(callback) {
             let webP = new Image;
             webP.onload = webP.onerror = function() {
-                callback(2 == webP.height);
+                callback(webP.height == 2);
             };
             webP.src = "data:image/webp;base64,UklGRjoAAABXRUJQVlA4IC4AAACyAgCdASoCAAIALmk0mk0iIiIiIgBoSygABc6WWgAA/veff/0PP8bA//LwYAAA";
         }
         testWebP((function(support) {
-            let className = true === support ? "webp" : "no-webp";
+            let className = support === true ? "webp" : "no-webp";
             document.documentElement.classList.add(className);
         }));
     }
@@ -122,11 +122,11 @@
     };
     DynamicAdapt.prototype.moveTo = function(place, element, destination) {
         element.classList.add(this.daClassname);
-        if ("last" === place || place >= destination.children.length) {
+        if (place === "last" || place >= destination.children.length) {
             destination.insertAdjacentElement("beforeend", element);
             return;
         }
-        if ("first" === place) {
+        if (place === "first") {
             destination.insertAdjacentElement("afterbegin", element);
             return;
         }
@@ -134,18 +134,18 @@
     };
     DynamicAdapt.prototype.moveBack = function(parent, element, index) {
         element.classList.remove(this.daClassname);
-        if (void 0 !== parent.children[index]) parent.children[index].insertAdjacentElement("beforebegin", element); else parent.insertAdjacentElement("beforeend", element);
+        if (parent.children[index] !== void 0) parent.children[index].insertAdjacentElement("beforebegin", element); else parent.insertAdjacentElement("beforeend", element);
     };
     DynamicAdapt.prototype.indexInParent = function(parent, element) {
         const array = Array.prototype.slice.call(parent.children);
         return Array.prototype.indexOf.call(array, element);
     };
     DynamicAdapt.prototype.arraySort = function(arr) {
-        if ("min" === this.type) Array.prototype.sort.call(arr, (function(a, b) {
+        if (this.type === "min") Array.prototype.sort.call(arr, (function(a, b) {
             if (a.breakpoint === b.breakpoint) {
                 if (a.place === b.place) return 0;
-                if ("first" === a.place || "last" === b.place) return -1;
-                if ("last" === a.place || "first" === b.place) return 1;
+                if (a.place === "first" || b.place === "last") return -1;
+                if (a.place === "last" || b.place === "first") return 1;
                 return a.place - b.place;
             }
             return a.breakpoint - b.breakpoint;
@@ -153,8 +153,8 @@
             Array.prototype.sort.call(arr, (function(a, b) {
                 if (a.breakpoint === b.breakpoint) {
                     if (a.place === b.place) return 0;
-                    if ("first" === a.place || "last" === b.place) return 1;
-                    if ("last" === a.place || "first" === b.place) return -1;
+                    if (a.place === "first" || b.place === "last") return 1;
+                    if (a.place === "last" || b.place === "first") return -1;
                     return b.place - a.place;
                 }
                 return b.breakpoint - a.breakpoint;
